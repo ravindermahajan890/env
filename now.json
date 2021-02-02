@@ -1,0 +1,17 @@
+{
+  "version": 2,
+  "alias": ["env.ravindermahajan.co.in"],
+  "builds": [
+    {
+      "src": "./server.js",
+      "use": "@now/node-server"
+    }
+  ],
+  "routes": [
+    { "handle": "filesystem" },
+    {
+      "src": "/.*",
+      "dest": "server.js"
+    }
+  ]
+}
