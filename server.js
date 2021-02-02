@@ -2,6 +2,7 @@ var express = require("express");
 var cookieParser = require("cookie-parser");
 var app = express();
 const axios = require("axios");
+const { jsonToTableHtmlString } = require("json-table-converter");
 
 app.use(cookieParser());
 
@@ -14,7 +15,9 @@ app.get("/", function (req, res) {
 
 app.get("/get-env-details", async (req, res) => {
   const resp = await axios.get(req.query.env);
-  res.send(resp.data.split("window.__SECRETS__ = ")[1].split("</script>")[0]);
+  var json = resp.data.split("window.__SECRETS__ = ")[1].split("</script>")[0];
+  const html = jsonToTableHtmlString(JSON.parse(json));
+  res.send(html);
 });
 
 app.listen(2000);
