@@ -33,14 +33,14 @@ app.get("/", function (req, res) {
   res.end("Hello, Please user /get-env-details?env=[url]");
 });
 
-app.get("/get-env-details", async (req, res) => {
+app.get("/get-env-details-hell", async (req, res) => {
   const resp = await axios.get(req.query.env);
   var json = resp.data.split("window.__SECRETS__ = ")[1].split("</script>")[0];
   const html = jsonToTableHtmlString(JSON.parse(json));
   res.send(html);
 });
 
-app.get("/get-cms-config", async (req, res) => {
+app.get("/get-cms-config-hell", async (req, res) => {
   const resp = await axios.get(req.query.env);
 
   let { WEB_VIEW_CONFIGURATION_API_KEY, WEB_VIEW_CMS_BASE_URL } = JSON.parse(
