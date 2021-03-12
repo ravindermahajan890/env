@@ -42,16 +42,10 @@ app.get("/get-env-details-hell", async (req, res) => {
 
 app.get("/get-cms-config-hell", async (req, res) => {
   const resp = await axios.get(req.query.env);
-
-  let { WEB_VIEW_CONFIGURATION_API_KEY, WEB_VIEW_CMS_BASE_URL } = JSON.parse(
-    resp.data.split("window.__SECRETS__ = ")[1].split("</script>")[0]
+  const { CMS_BASE_URL, CONFIGURATION_API_KEY } = JSON.parse(resp.data.split("window.__SECRETS__ = ")[1].split("</script>")[0]);
+  const respCMS = await axios.get(
+    CMS_BASE_URL + CONFIGURATION_API_KEY + "/latest/config.json"
   );
-  console.log(WEB_VIEW_CONFIGURATION_API_KEY);
-  let url =
-    WEB_VIEW_CMS_BASE_URL +
-    WEB_VIEW_CONFIGURATION_API_KEY +
-    "/latest/config.json";
-  const respCMS = await axios.get(url);
   const flattenedData = flattenObject(respCMS.data);
   const html = jsonToTableHtmlString(flattenedData);
   res.send(html);
